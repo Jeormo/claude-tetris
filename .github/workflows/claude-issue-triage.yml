@@ -1,0 +1,40 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Issue Triage
+        id: claude-triage
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Analiza el issue #${{ github.event.issue.number }} de este repositorio (Tetris en vanilla JS, ver CLAUDE.md para la arquitectura de game.js).
+
+            Pasos:
+            1. Lee el título y cuerpo del issue con `gh issue view ${{ github.event.issue.number }}`.
+            2. Revisa el código relevante (game.js, index.html, style.css) para entender si es un bug, una mejora, una pregunta, etc.
+            3. Aplica los labels que correspondan de esta lista EXISTENTE (no crees labels nuevos): bug, enhancement, documentation, question, help wanted, good first issue, duplicate, invalid, wontfix. Usa `gh issue edit ${{ github.event.issue.number }} --add-label "<label>"`.
+            4. Publica un comentario en el issue (`gh issue comment ${{ github.event.issue.number }} --body "..."`) con un diagnóstico general:
+               - Resumen del problema en 1-2 líneas.
+               - Causa raíz probable (referencia funciones/secciones concretas de game.js cuando aplique, ej. collide(), tryRotate(), clearLines()).
+               - Sugerencia de enfoque de solución (sin implementarla).
+               - No hagas cambios de código ni commits: este análisis es solo diagnóstico.
+
+          # Restringe a Claude a solo leer código y operar sobre el issue (labels/comentario),
+          # sin permitir modificar archivos ni hacer commits/push.
+          claude_args: '--allowed-tools "Bash(gh issue view:*),Bash(gh issue edit:*),Bash(gh issue comment:*),Read,Grep,Glob"'
