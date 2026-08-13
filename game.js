@@ -132,11 +132,7 @@ function renderLeaderboard() {
     }
     list.forEach((entry, i) => {
       const li = document.createElement('li');
-      const isCurrent = pendingHighscoreEntry &&
-        entry.name === pendingHighscoreEntry.name &&
-        entry.score === pendingHighscoreEntry.score &&
-        entry.lines === pendingHighscoreEntry.lines &&
-        entry.level === pendingHighscoreEntry.level;
+      const isCurrent = pendingHighscoreEntry && entry.id === pendingHighscoreEntry.id;
       if (isCurrent) li.classList.add('highlight');
       li.textContent = `${i + 1}. ${entry.name} — ${entry.score.toLocaleString()}`;
       el.appendChild(li);
@@ -147,6 +143,7 @@ function renderLeaderboard() {
 }
 
 function resetRecords() {
+  if (!confirm('¿Seguro que quieres borrar todos los records guardados?')) return;
   localStorage.removeItem(HIGHSCORES_KEY);
   localStorage.removeItem(STATS_KEY);
   pendingHighscoreEntry = null;
@@ -158,7 +155,8 @@ resetScoresBtn.addEventListener('click', resetRecords);
 saveScoreBtn.addEventListener('click', () => {
   if (nameEntryEl.classList.contains('hidden')) return;
   const name = (nameInputEl.value || 'JUGADOR').trim().slice(0, 12) || 'JUGADOR';
-  const entry = { name, score, lines, level };
+  const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const entry = { id, name, score, lines, level };
   const list = getHighscores();
   list.push(entry);
   list.sort((a, b) => b.score - a.score);
