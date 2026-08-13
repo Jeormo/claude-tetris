@@ -158,6 +158,42 @@ body {
   transform: translateX(18px);
 }
 
+/* ---- Skin: Neon (fondo del tablero más oscuro para resaltar el glow) ---- */
+[data-skin="neon"] #board,
+[data-skin="neon"] #next-canvas {
+  background: #050508;
+  border-color: #1a1a2a;
+}
+
+/* ---- Selector de skin ---- */
+.skin-select {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#skin-select {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  color: var(--value-color);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  padding: 4px 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#skin-select:hover {
+  background: var(--kbd-border);
+}
+
+#skin-select:focus {
+  outline: 1px solid var(--value-color);
+}
+
 /* ---- Controles ---- */
 .controls ul {
   list-style: none;
