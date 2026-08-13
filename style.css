@@ -221,8 +221,8 @@ kbd {
   color: var(--value-color);
 }
 
-#restart-btn {
-  margin-top: 8px;
+#restart-btn,
+.pause-menu button {
   background: var(--restart-bg);
   color: var(--restart-color);
   border: none;
@@ -235,6 +235,89 @@ kbd {
   transition: background 0.15s;
 }
 
-#restart-btn:hover {
+#restart-btn:hover,
+.pause-menu button:hover {
   background: var(--restart-hover);
+}
+
+#restart-btn {
+  margin-top: 8px;
+}
+
+/* ---- Menú de pausa ---- */
+.pause-menu {
+  width: 220px;
+}
+
+.pause-menu .overlay-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--overlay-title);
+  margin-bottom: 4px;
+}
+
+.pause-menu button {
+  width: 100%;
+  padding: 10px 0;
+}
+
+#controls-btn {
+  background: var(--kbd-bg);
+  color: var(--text);
+}
+
+#controls-btn:hover {
+  background: var(--kbd-border);
+}
+
+.controls-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.controls-list.hidden {
+  display: none;
+}
+
+.controls-list li {
+  font-size: 12px;
+  color: var(--controls-text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.level-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.level-select label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--label-color);
+  font-weight: 600;
+}
+
+.level-select select {
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.gameover-content.hidden,
+.pause-menu.hidden {
+  display: none;
 }
